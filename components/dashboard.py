@@ -15,20 +15,20 @@ def display_dashboard(option):
         fig.patch.set_facecolor('#f0f0f0')
         ax.set_facecolor('#e0e0e0')
 
-        # Plotting data with customized styles
+        # plotting data with customized styles
         ax.plot(hist.index, hist["Close"], label="Close Price", color="skyblue")
         ax.set_title(f"{ticker} Price Trend", fontsize=16, color="#1f3b4d")
         ax.set_xlabel("Year", fontsize=12, color="#1f3b4d")
         ax.set_ylabel("Price ($)", fontsize=12, color="#1f3b4d")
 
-        # Customize grid and spines with dark blue color
+        # customize grid and spines with dark blue color
         ax.grid(True, color='#1f3b4d', linestyle='--', linewidth=0.5)
         ax.spines['top'].set_visible(False)
         ax.spines['right'].set_visible(False)
-        ax.spines['left'].set_color('#1f3b4d')  # Dark blue spines
-        ax.spines['bottom'].set_color('#1f3b4d')  # Dark blue spines
-        ax.tick_params(axis='x', colors='#1f3b4d')  # Dark blue tick labels
-        ax.tick_params(axis='y', colors='#1f3b4d')  # Dark blue tick labels
+        ax.spines['left'].set_color('#1f3b4d')
+        ax.spines['bottom'].set_color('#1f3b4d')
+        ax.tick_params(axis='x', colors='#1f3b4d')
+        ax.tick_params(axis='y', colors='#1f3b4d')
 
         st.pyplot(fig)
 
