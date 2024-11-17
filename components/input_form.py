@@ -2,37 +2,37 @@ import streamlit as st
 
 def display_input_form():
     with st.sidebar.form("user_input"):
-        risk_level = st.selectbox("Select Risk Level", ["1 - Very Low", "2 - Low", "3 - Moderate", "4 - High", "5 - Very High"])
-        saving_rate = st.number_input("Enter Your Monthly Saving Rate (€)", min_value=0.0, step=10.0)
-        initial_investment = st.number_input("Initial Investment Amount (€)", min_value=0.0, step=100.0)
-        time_frame = st.number_input("Investment Time Frame (years)", min_value=1, step=1)
+        initial_investment = st.number_input("Starting capital (CHF)", min_value=0.0, step=10.0, value=st.session_state.investment)
+        saving_rate = st.number_input("Monthly contribution (CHF)", min_value=0.0, step=10.0, value=st.session_state.monthly)
+        time_frame = st.number_input("Investment time frame (months)", min_value=1, step=1, value=st.session_state.yearWealth)
+        split_1 = 0
+        split_2 = 0
+        split_3 = 0
+        if len(st.session_state.riskLevelList) > 0:
+            split_1 = st.slider(st.session_state.riskLevelList[0] + " allocation (%)", 0, 100, step=1, 
+                                key=st.session_state.riskLevelList[0], value=st.session_state.SplitRiskLevelList[0])
+        if len(st.session_state.riskLevelList) > 1:
+            split_2 = st.slider(st.session_state.riskLevelList[1] + " allocation (%)", 0, 100, step=1, 
+                                key=st.session_state.riskLevelList[1], value=st.session_state.SplitRiskLevelList[1])
+        if len(st.session_state.riskLevelList) > 2:
+            split_3 = st.slider(st.session_state.riskLevelList[2] + " allocation (%)", 0, 100, step=1, 
+                                key=st.session_state.riskLevelList[2], value=st.session_state.SplitRiskLevelList[2])
 
-        # individual risk level sliders
-        split_very_low = st.slider("Risk Level 1 Split (%)", 0, 100, 0, step=1, key="split_very_low")
-        split_low = st.slider("Risk Level 2 Split (%)", 0, 100, 0, step=1, key="split_low")
-        split_moderate = st.slider("Risk Level 3 Split (%)", 0, 100, 0, step=1, key="split_moderate")
-        split_high = st.slider("Risk Level 4 Split (%)", 0, 100, 0, step=1, key="split_high")
-        split_very_high = st.slider("Risk Level 5 Split (%)", 0, 100, 0, step=1, key="split_very_high")
-
-        # check if total allocation exceeds 100%
-        total_allocation = split_very_low + split_low + split_moderate + split_high + split_very_high
-        if total_allocation > 100:
-            st.error("The total allocation across all risk levels cannot exceed 100%. Please adjust the sliders.")
-
-        submitted = st.form_submit_button("Get Investment Options")
-
-        if submitted and total_allocation <= 100:
+        total_allocation = split_1 + split_2 + split_3
+        next = st.form_submit_button("Change")
+        previous = st.form_submit_button("Back to questions")
+        if total_allocation != 100:
+            st.error("The total allocation across all risk levels must sum up to 100%. Please adjust the sliders.")
+        elif next and total_allocation <= 100:
             return {
-                "risk_level": risk_level,
-                "saving_rate": saving_rate,
+                "next": True,
                 "initial_investment": initial_investment,
+                "saving_rate": saving_rate,
                 "time_frame": time_frame,
-                "risk_split": {
-                    "very_low": split_very_low,
-                    "low": split_low,
-                    "moderate": split_moderate,
-                    "high": split_high,
-                    "very_high": split_very_high
-                }
+                "risk_split": [split_1, split_2, split_3][:len(st.session_state.riskLevelList)]
+            }
+        elif previous:
+            return {
+                "next": False
             }
     return None

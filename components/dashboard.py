@@ -41,6 +41,12 @@ def display_dashboard(option):
 
         # display financial metrics in columns
         col1, col2, col3 = st.columns(3)
-        col1.metric("Market Cap", f"{market_cap:,}")
+        try:
+            if market_cap is not None and isinstance(market_cap, (int, float)):
+                col1.metric("Market Cap", f"{market_cap:,}")
+            else:
+                col1.metric("Market Cap", "N/A")
+        except Exception as e:
+            print(f"Error with Market Cap metric: {e}")
         col2.metric("Dividend Yield", f"{dividend_yield * 100:.2f}%" if dividend_yield != "N/A" else "N/A")
         col3.metric("Beta", beta)
