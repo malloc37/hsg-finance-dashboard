@@ -76,23 +76,30 @@ if st.session_state.counter == 4:
         else:
             st.session_state.action = "previous"
 if st.session_state.counter == 5:
-    st.write(f"Initial Investment: €{st.session_state.investment}")
-    st.write(f"Monthly Saving Rate: €{st.session_state.monthly}")
-    st.write(f"Year Wealth: {st.session_state.yearWealth}")
-    st.write(f"riskLevelList: {st.session_state.riskLevelList}")
-    st.write(f"SplitRiskLevelList: {st.session_state.SplitRiskLevelList}")
-    result = display_input_form()
-    if result:
-        if result["next"]:
-            st.session_state.investment = result["initial_investment"]
-            st.session_state.monthly = result["saving_rate"]
-            st.session_state.yearWealth = result["time_frame"]
-            st.session_state.SplitRiskLevelList = result["risk_split"]
-        else:
-            st.session_state.action = "previous"
+    if st.session_state.riskLevelList and st.session_state.SplitRiskLevelList:
+        selected_risk_level = st.session_state.riskLevelList[0]
+        investment_options = {
+            "Very-low risk": {"Instrument": "Savings Account", "Ticker": "n/a", "Risk Level": "Very Low"},
+            "Low risk": {"Instrument": "iShares 7-10 Year Treasury Bond ETF", "Ticker": "IEF",
+                         "Risk Level": "Low Risk"},
+            "Moderate risk": {"Instrument": "Tesla Stock", "Ticker": "TSLA", "Risk Level": "Moderate Risk"},
+            "High risk": {"Instrument": "Vanguard S&P 500 ETF", "Ticker": "VOO", "Risk Level": "High Risk"},
+            "Very-high risk": {"Instrument": "Bitcoin", "Ticker": "BTC-USD", "Risk Level": "Very High Risk"}
+        }
 
-# if user_input:
-#     selected_option = display_options_list(user_input)
+        selected_option = investment_options.get(selected_risk_level, {"Instrument": "N/A", "Ticker": "n/a"})
 
-#     if selected_option:
-#         display_dashboard(selected_option)
+        allocation = {
+            risk: st.session_state.SplitRiskLevelList[i]
+            for i, risk in enumerate(st.session_state.riskLevelList)
+        }
+
+        display_dashboard(
+            selected_option=selected_option,
+            initial_investment=st.session_state.investment,
+            monthly_contribution=st.session_state.monthly,
+            investment_period=st.session_state.yearWealth,
+            allocation=allocation
+        )
+    else:
+        st.error("No risk levels or allocations selected. Please go back and complete the steps.")
