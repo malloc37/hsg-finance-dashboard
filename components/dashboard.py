@@ -29,32 +29,7 @@ def analyze_sentiment(headlines):
     return avg_sentiment
 
 
-def display_dashboard(selected_option, initial_investment, monthly_contribution, investment_period, allocation):
-    with st.sidebar:
-        st.title("Investment Dashboard Menu")
-        st.markdown("### Summary")
-        initial_investment = st.number_input(
-            "Initial Investment (€)",
-            value=initial_investment,
-            min_value=0.0,
-            step=10.0
-        )
-        monthly_contribution = st.number_input(
-            "Monthly Contribution (€)",
-            value=monthly_contribution,
-            min_value=0.0,
-            step=10.0
-        )
-        investment_period = st.number_input(
-            "Investment Period (months)",
-            value=investment_period,
-            min_value=1,
-            step=1
-        )
-        st.markdown("---")
-        st.markdown("### Actions")
-        if st.button("Back to Input"):
-            st.session_state.counter -= 1
+def display_dashboard(selected_option):
 
     st.title("Investment Dashboard")
 
@@ -108,15 +83,3 @@ def display_dashboard(selected_option, initial_investment, monthly_contribution,
         st.markdown("### Top News Headlines")
         for headline in headlines:
             st.markdown(f"- {headline}")
-
-
-    st.markdown("---")
-    st.subheader("Investment Summary")
-    col1, col2, col3 = st.columns(3)
-    col1.metric("Initial Investment", f"€{initial_investment:,.2f}")
-    col2.metric("Monthly Contribution", f"€{monthly_contribution:,.2f}")
-    col3.metric("Investment Period", f"{investment_period} months")
-
-    st.markdown("### Portfolio Allocation")
-    allocation_summary = "\n".join([f"- {risk}: {percentage}%" for risk, percentage in allocation.items()])
-    st.markdown(f"**Allocation Summary:**\n{allocation_summary}")
