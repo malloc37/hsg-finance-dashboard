@@ -76,6 +76,15 @@ if st.session_state.counter == 4:
         else:
             st.session_state.action = "previous"
 if st.session_state.counter == 5:
+    result = display_input_form()
+    if result:
+        if result["next"]:
+            st.session_state.investment = result["initial_investment"]
+            st.session_state.monthly = result["saving_rate"]
+            st.session_state.yearWealth = result["time_frame"]
+            st.session_state.SplitRiskLevelList = result["risk_split"]
+        else:
+            st.session_state.action = "previous"
     if st.session_state.riskLevelList and st.session_state.SplitRiskLevelList:
         selected_risk_level = st.session_state.riskLevelList[0]
         investment_options = {
