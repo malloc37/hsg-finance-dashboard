@@ -1,9 +1,9 @@
 import streamlit as st
 from components.input_form import display_input_form
-from components.options_list import display_options_list
 from components.dashboard import display_dashboard
 from components.openingQuestions import *
 from utils.styling import apply_custom_styling
+from components.options_list import investment_options
 
 # toDO: double click problem
 
@@ -86,29 +86,9 @@ if st.session_state.counter == 5:
         else:
             st.session_state.action = "previous"
     if st.session_state.riskLevelList and st.session_state.SplitRiskLevelList:
-        selected_risk_level = st.session_state.riskLevelList[0]
-        investment_options = {
-            "Very-low risk": {"Instrument": "Savings Account", "Ticker": "n/a", "Risk Level": "Very Low"},
-            "Low risk": {"Instrument": "iShares 7-10 Year Treasury Bond ETF", "Ticker": "IEF",
-                         "Risk Level": "Low Risk"},
-            "Moderate risk": {"Instrument": "Tesla Stock", "Ticker": "TSLA", "Risk Level": "Moderate Risk"},
-            "High risk": {"Instrument": "Vanguard S&P 500 ETF", "Ticker": "VOO", "Risk Level": "High Risk"},
-            "Very-high risk": {"Instrument": "Bitcoin", "Ticker": "BTC-USD", "Risk Level": "Very High Risk"}
-        }
+        selected_risk_levels = st.session_state.riskLevelList
+        selected_options = {risk: investment_options[risk] for risk in selected_risk_levels}
 
-        selected_option = investment_options.get(selected_risk_level, {"Instrument": "N/A", "Ticker": "n/a"})
-
-        allocation = {
-            risk: st.session_state.SplitRiskLevelList[i]
-            for i, risk in enumerate(st.session_state.riskLevelList)
-        }
-
-        display_dashboard(
-            selected_option=selected_option,
-            initial_investment=st.session_state.investment,
-            monthly_contribution=st.session_state.monthly,
-            investment_period=st.session_state.yearWealth,
-            allocation=allocation
-        )
+        display_dashboard(selected_risk_levels)
     else:
         st.error("No risk levels or allocations selected. Please go back and complete the steps.")
