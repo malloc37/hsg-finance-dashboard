@@ -2,7 +2,7 @@ import streamlit as st
 from components.input_form import display_input_form
 from components.options_list import display_options_list
 from components.dashboard import display_dashboard
-from components.OpeningQuestions import *
+from components.openingQuestions import *
 from utils.styling import apply_custom_styling
 
 # toDO: double click problem
@@ -76,6 +76,15 @@ if st.session_state.counter == 4:
         else:
             st.session_state.action = "previous"
 if st.session_state.counter == 5:
+    result = display_input_form()
+    if result:
+        if result["next"]:
+            st.session_state.investment = result["initial_investment"]
+            st.session_state.monthly = result["saving_rate"]
+            st.session_state.yearWealth = result["time_frame"]
+            st.session_state.SplitRiskLevelList = result["risk_split"]
+        else:
+            st.session_state.action = "previous"
     if st.session_state.riskLevelList and st.session_state.SplitRiskLevelList:
         selected_risk_level = st.session_state.riskLevelList[0]
         investment_options = {

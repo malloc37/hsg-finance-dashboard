@@ -63,10 +63,10 @@ def apply_custom_styling():
                 color: #110F37;
                 background-color: #7f94f0;
             }
-            .st-emotion-cache-19cfm8f {
+            div[data-testid="stNumberInputContainer"] {
                 border: none;
             }
-            .st-emotion-cache-1dj3ksd {
+            div[role="slider"] {
                 background-color: #110F37 !important;
             }
             .header-text {
@@ -81,15 +81,12 @@ def apply_custom_styling():
                 top: -110px;
             }
             
-            .st-emotion-cache-h4xjwg  {
+            .stAppHeader {
                 background-color: rgba(0, 0, 0, 0.0) !important;
             }
             div[data-testid="stExpanderDetails"] p {
                 font-size: 16px !important;
                 bottom: 8%;
-            }
-            div.st-emotion-cache-ysk9xe e1nzilvr5 p{
-                margin-bottom: 9%;
             }
             div[data-testid="stSidebarContent"] {
                 background-color: #DCD7CD !important;
