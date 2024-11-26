@@ -2,7 +2,7 @@ import streamlit as st
 from components.input_form import display_input_form
 from components.options_list import display_options_list
 from components.dashboard import display_dashboard
-from components.OpeningQuestions import *
+from components.openingQuestions import *
 from utils.styling import apply_custom_styling
 
 # toDO: double click problem
