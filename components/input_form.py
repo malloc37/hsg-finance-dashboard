@@ -1,4 +1,5 @@
 import streamlit as st
+from components.options_list import investment_options
 
 def display_input_form():
     with st.sidebar.form("user_input"):
@@ -17,7 +18,6 @@ def display_input_form():
         if len(st.session_state.riskLevelList) > 2:
             split_3 = st.slider(st.session_state.riskLevelList[2] + " allocation (%)", 0, 100, step=1, 
                                 key=st.session_state.riskLevelList[2], value=st.session_state.SplitRiskLevelList[2])
-
         total_allocation = split_1 + split_2 + split_3
         next = st.form_submit_button("Change")
         previous = st.form_submit_button("Back to questions")

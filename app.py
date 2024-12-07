@@ -2,8 +2,9 @@ import streamlit as st
 from components.input_form import display_input_form
 from components.dashboard import display_dashboard
 from components.openingQuestions import *
-from utils.styling import apply_custom_styling
-from components.options_list import investment_options
+from utils.styling import *
+from components.returns import displayReturns
+
 
 # toDO: double click problem
 
@@ -24,9 +25,19 @@ def initialize_state():
         st.session_state.SplitRiskLevelList = []
     if "action" not in st.session_state:
         st.session_state.action = None
+    if "selected_risk_level" not in st.session_state:
+        st.session_state.selected_risk_level = None
+    if "selected_option" not in st.session_state:
+        st.session_state.selected_option = None
+    if "selectionByRisk" not in st.session_state:
+        st.session_state.selectionByRisk = []
+
+def spaces(n):
+    for i in range(n):
+        st.write("")
 
 initialize_state()
-apply_custom_styling()
+
 
 if st.session_state.action == "next":
     st.session_state.counter += 1
@@ -35,15 +46,16 @@ elif st.session_state.action == "previous":
     st.session_state.counter -= 1
     st.session_state.action = None
 
-for i in range(4):
-    st.write("")
-
 if st.session_state.counter == 0:
+    apply_custom_styling()
+    spaces(4)
     result = displayInvestmentQuestion()
     if result and result["next"]:
         st.session_state.investment = result["initial_investment"]
         st.session_state.action = "next"
 if st.session_state.counter == 1:
+    apply_custom_styling()
+    spaces(4)
     result = displayMonthlySavingQuestion()
     if result:
         if result["next"]:
@@ -52,6 +64,8 @@ if st.session_state.counter == 1:
         else:
             st.session_state.action = "previous"
 if st.session_state.counter == 2:
+    apply_custom_styling()
+    spaces(4)
     result = displayYearWealthQuestion()
     if result:
         if result["next"]:
@@ -60,6 +74,8 @@ if st.session_state.counter == 2:
         else:
             st.session_state.action = "previous"
 if st.session_state.counter == 3:
+    apply_custom_styling()
+    spaces(4)
     result = displayRiskLevelQuestion()
     if result:
         if result["next"]:
@@ -68,11 +84,14 @@ if st.session_state.counter == 3:
         else:
             st.session_state.action = "previous"
 if st.session_state.counter == 4:
+    apply_custom_styling()
+    spaces(4)
     result = displaySplitRiskLevelQuestion(st.session_state.riskLevelList)
     if result:
         if result["next"]:
             st.session_state.SplitRiskLevelList = result["SplitRiskLevelList"]
             st.session_state.action = "next"
+            st.session_state.selected_risk_level = st.session_state.riskLevelList[0]
         else:
             st.session_state.action = "previous"
 if st.session_state.counter == 5:
@@ -86,9 +105,17 @@ if st.session_state.counter == 5:
         else:
             st.session_state.action = "previous"
     if st.session_state.riskLevelList and st.session_state.SplitRiskLevelList:
-        selected_risk_levels = st.session_state.riskLevelList
-        selected_options = {risk: investment_options[risk] for risk in selected_risk_levels}
-
-        display_dashboard(selected_risk_levels)
+        custom_stylingDashboard()
+        resultDash = display_dashboard()
+        if resultDash:
+            if resultDash["next"]:
+                st.session_state.selectionByRisk = resultDash["selectionByRisk"]
+                st.session_state.action = "next"
     else:
         st.error("No risk levels or allocations selected. Please go back and complete the steps.")
+if st.session_state.counter == 6:
+    custom_stylingReturn()
+    result = displayReturns()
+    if result:
+        if not result["next"]:
+            st.session_state.action = "previous"

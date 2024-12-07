@@ -1,9 +1,12 @@
 import streamlit as st
 import requests
 from textblob import TextBlob
-
 from components.options_list import investment_options
 from data.finance_api import get_investment_metrics
+
+def spaces(n):
+    for i in range(n):
+        st.write("")
 
 def fetch_stock_news(stock_name, api_key):
     params = {
@@ -28,34 +31,59 @@ def analyze_sentiment(headlines):
     sentiment_scores = [TextBlob(headline).sentiment.polarity for headline in headlines]
     avg_sentiment = sum(sentiment_scores) / len(sentiment_scores) if sentiment_scores else 0
     return avg_sentiment
-def display_dashboard(selected_risk_levels, selected_risk_level=None, selected_option=None):
-    st.title("Investment Dashboard")
-
-    if not selected_risk_level:
-        selected_risk_level = selected_risk_levels[0]
-    if not selected_option:
-        selected_option = investment_options[selected_risk_level][0]
-
-    header_col1, header_col2 = st.columns([3, 2])
-    with header_col2:
+def display_dashboard():
+    selected_risk_level = st.session_state.selected_risk_level
+    selectionByRisk = []
+    with st.form("userSelectedRiskOpion"):
+        st.markdown(f"<p class='Assets'>Selection of assets</p>", unsafe_allow_html=True)
+        cols = st.columns(len(st.session_state.riskLevelList))
+        if selectionByRisk == []:
+            for i in range(len(st.session_state.riskLevelList)):
+                selectionByRisk.append({"Instrument": "-"})
+        for i in range(len(cols)):
+            with cols[i]:
+                options = [value for value in investment_options[st.session_state.riskLevelList[i]]]
+                options.append({"Instrument": "-"})
+                selectionByRisk[i] = st.selectbox(
+                    st.session_state.riskLevelList[i],
+                    options,
+                    index=options.index(selectionByRisk[i]),
+                    format_func=lambda x: x["Instrument"],
+                    key=st.session_state.selected_risk_level[i] + "SelectOption"
+                )
+        cols2 = st.columns(3)
+        with cols2[1]:
+            next = st.form_submit_button("Calculate return")
+        if {"Instrument": "-"} in selectionByRisk and next:
+            st.error("You have to select an option for every risk level.")
+        elif next:
+            return {
+                "next": True,
+                "selectionByRisk": selectionByRisk
+            }
+    spaces(3)
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.markdown(f"<p class='navigation'>Navigation</p>", unsafe_allow_html=True)
+    with col2:
         selected_risk_level = st.selectbox(
             "Risk Level",
-            selected_risk_levels,
-            index=selected_risk_levels.index(selected_risk_level),
+            st.session_state.riskLevelList,
+            index=st.session_state.riskLevelList.index(selected_risk_level),
             key="risk_level_dropdown"
         )
-
-        options = investment_options[selected_risk_level]
+    selected_option = investment_options[selected_risk_level][0]
+    with col3:
         selected_option = st.selectbox(
             "Investment Option",
-            options,
+            investment_options[selected_risk_level],
+            index=investment_options[selected_risk_level].index(selected_option),
             format_func=lambda x: x["Instrument"],
             key="investment_option_dropdown"
         )
-
-    with header_col1:
-        st.header(f"{selected_option['Instrument']} - {selected_option['Asset Class']}")
-
+    st.title("Investment Dashboard")
+        
+    st.header(f"{selected_option['Instrument']} - {selected_option['Asset Class']}")
     metrics = get_investment_metrics(selected_option["Ticker"], selected_option["Asset Class"])
 
     st.subheader("Financial Metrics")

@@ -2,3 +2,5 @@ streamlit
 yfinance
 matplotlib
 textblob
+python-dateutil
+numpy_financial
