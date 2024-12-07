@@ -16,7 +16,12 @@ investment_options = {
         {"Instrument": "Procter & Gamble", "Ticker": "PG", "Asset Class": "Stock"},
         {"Instrument": "SPDR S&P Dividend ETF", "Ticker": "SDY", "Asset Class": "ETF"},
         {"Instrument": "Vanguard Dividend Appreciation ETF", "Ticker": "VIG", "Asset Class": "ETF"},
-        {"Instrument": "Vanguard High Dividend Yield ETF", "Ticker": "VYM", "Asset Class": "ETF"}
+        {"Instrument": "Vanguard High Dividend Yield ETF", "Ticker": "VYM", "Asset Class": "ETF"},
+        {"Instrument": "Realty Income Corporation", "Ticker": "O", "Asset Class": "REIT"},
+        {"Instrument": "Johnson & Johnson", "Ticker": "JNJ", "Asset Class": "Stock"},
+        {"Instrument": "Coca-Cola Company", "Ticker": "KO", "Asset Class": "Stock"},
+        {"Instrument": "Procter & Gamble", "Ticker": "PG", "Asset Class": "Stock"},
+
     ],
     "Moderate risk": [
         {"Instrument": "Apple Inc.", "Ticker": "AAPL", "Asset Class": "Stock"},
