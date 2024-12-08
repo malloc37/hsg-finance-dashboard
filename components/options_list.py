@@ -10,8 +10,6 @@ investment_options = {
         {"Instrument": "Vanguard Total Bond Market ETF", "Ticker": "BND", "Asset Class": "Bonds"}
     ],
     "Low risk": [
-        {"Instrument": "Coca-Cola Company", "Ticker": "KO", "Asset Class": "Stock"},
-        {"Instrument": "Johnson & Johnson", "Ticker": "JNJ", "Asset Class": "Stock"},
         {"Instrument": "Nestlé", "Ticker": "NESN.SW", "Asset Class": "Stock"},
         {"Instrument": "Procter & Gamble", "Ticker": "PG", "Asset Class": "Stock"},
         {"Instrument": "SPDR S&P Dividend ETF", "Ticker": "SDY", "Asset Class": "ETF"},

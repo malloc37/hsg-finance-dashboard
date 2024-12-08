@@ -25,7 +25,7 @@ def displayReturns():
         col1, col2, col3, col4, col5 = st.columns([3,0.2,3,0.2,3])
         now = datetime.datetime.now()
         with col1:
-            st.markdown(f"<p class='subTitle'>Summary - {now.strftime("%b %Y")}</p>", unsafe_allow_html=True)
+            st.markdown(f"<p class='subTitle'>Summary - {now.strftime('%b %Y')}</p>", unsafe_allow_html=True)
             col11, col22, col33 = st.columns([3.4, 0.2, 4])
             with col11:
                 st.markdown(f"<p class='nameRe'>Initial investment</p>", unsafe_allow_html=True)
@@ -55,11 +55,11 @@ def displayReturns():
             annual_rate = (1 + monthly_rate) ** 12 - 1
             finalValueuno = ((returnRateInitialInvestment * st.session_state.investment / st.session_state.yearWealth) 
             + (annual_rate * st.session_state.monthly)) / ((st.session_state.investment / st.session_state.yearWealth) + st.session_state.monthly)
-            st.markdown(f"<p class='percent'>{"{:,.2f}".format((finalValueuno * 100))}%</p>", unsafe_allow_html=True)
+            st.markdown(f"<p class='percent'>{'{:,.2f}'.format((finalValueuno * 100))}%</p>", unsafe_allow_html=True)
         with col4:
             st.write("->")
         with col5:
-            st.markdown(f"<p class='subTitle'>Expected value - {(now + relativedelta(months=st.session_state.yearWealth)).strftime("%b %Y")}</p>", unsafe_allow_html=True)
+            st.markdown(f"<p class='subTitle'>Expected value - {(now + relativedelta(months=st.session_state.yearWealth)).strftime('%b %Y')}</p>", unsafe_allow_html=True)
             col111, col222, col333 = st.columns([3.4, 0.2, 4])
             with col111:
                 st.markdown(f"<p class='name'>Initial inv. interest</p>", unsafe_allow_html=True)
@@ -73,11 +73,11 @@ def displayReturns():
                     st.markdown(f"<p class='twoPointsGr'>:</p>", unsafe_allow_html=True)
             with col333:
                 initialInvInterest = initialInvInterestPartialFun(irrs) - st.session_state.investment
-                st.markdown(f"<p class='value'>CHF {"{:,.2f}".format(initialInvInterest)}</p>", unsafe_allow_html=True)
+                st.markdown(f"<p class='value'>CHF {'{:,.2f}'.format(initialInvInterest)}</p>", unsafe_allow_html=True)
                 savingInterest = futureValueFun(irrs) - st.session_state.monthly * st.session_state.yearWealth
-                st.markdown(f"<p class='value'>CHF {"{:,.2f}".format(savingInterest)}</p>", unsafe_allow_html=True)
-                st.markdown(f"<p class='valueGr'>CHF {"{:,.2f}".format(savingInterest + initialInvInterest)}</p>", unsafe_allow_html=True)
-                st.markdown(f"<p class='valueGr'>CHF {"{:,.2f}".format(savingInterest + initialInvInterest + (st.session_state.monthly * st.session_state.yearWealth) + st.session_state.investment)}</p>", unsafe_allow_html=True)
+                st.markdown(f"<p class='value'>CHF {'{:,.2f}'.format(savingInterest)}</p>", unsafe_allow_html=True)
+                st.markdown(f"<p class='valueGr'>CHF {'{:,.2f}'.format(savingInterest + initialInvInterest)}</p>", unsafe_allow_html=True)
+                st.markdown(f"<p class='valueGr'>CHF {'{:,.2f}'.format(savingInterest + initialInvInterest + (st.session_state.monthly * st.session_state.yearWealth) + st.session_state.investment)}</p>", unsafe_allow_html=True)
                 
         spaces(2)
         previous = st.form_submit_button("Previous")
