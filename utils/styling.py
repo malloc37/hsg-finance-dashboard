@@ -1,10 +1,12 @@
 import streamlit as st
 import base64
 
+# convert a image in a stream of bite in base 64.
 def load_image_as_base64(image_path):
     with open(image_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
-
+    
+# custom styling for most of the pages, for visual aspects (e.g. colors, background-colors, text-align, text-size, text-style..).
 def apply_custom_styling():
     image_path = "resources/logo.png"
     image_base64 = load_image_as_base64(image_path)
@@ -114,6 +116,7 @@ def apply_custom_styling():
         unsafe_allow_html=True
     )
 
+# custom styling for the dashboard interface page (not the dashboard specifically, but the page where the dashboard is)
 def custom_stylingDashboard():
     apply_custom_styling()
     st.markdown(
@@ -128,15 +131,6 @@ def custom_stylingDashboard():
             div[data-testid="stSidebarContent"] button[kind="secondaryFormSubmit"]:focus {
                 background-color: #7f94f0 !important;
                 border: none;
-            }
-            p[class = "navigation"] {
-                font-weight: bold !important;
-                font-size: 2em !important;
-            }
-            p[class = "Assets"] {
-                font-weight: bold !important;
-                font-size: 2.5em !important;
-                text-align: center;
             }
             body button[kind="secondaryFormSubmit"] {
                 background-color: #110F37 !important;
@@ -155,12 +149,30 @@ def custom_stylingDashboard():
             div[data-testid="stSidebarContent"] button[kind="secondaryFormSubmit"] p {
                 color: #110F37 !important;
             }
+            h2[class='navigation'] {
+                font-weight: bold !important;
+                font-style: normal !important;
+                font-size: 2.4em !important;
+            }
+            h2[class='assets'] {
+                font-style: normal !important;
+                font-size: 2.4em !important;
+                text-align:center;
+                margin-top: -20px;
+            }
+            div[data-testid="stForm"] {
+                margin-top:-60px;
+            }
+            div[data-testid="stSidebarContent"] div[data-testid="stForm"] {
+                margin-top:-60px;
+            }
 
         </style>
         """,
         unsafe_allow_html=True
     )
 
+# custom styling for the output interface (the entirety of the last page).
 def custom_stylingReturn():
         apply_custom_styling()
         st.markdown(
@@ -169,10 +181,10 @@ def custom_stylingReturn():
             div[data-testid="stForm"] {
                 background-color: #375A6A !important;
             }
-            * {
+            div[data-testid="stForm"] * {
                 color: #DCD7CD !important;
             }
-            button p, button span {
+            div[data-testid="stForm"] button p, button span {
                 color: #110F37 !important;
             }
             h1 {
@@ -183,12 +195,18 @@ def custom_stylingReturn():
                 font-size: 1.6em !important;
                 font-weight: bold !important;
             }
-            p[class='name'], p[class='nameGr'] {
+            p[class='subTitleM'] {
+                text-align: right;
+                font-size: 1.6em !important;
                 font-weight: bold !important;
             }
-            p[class='name'], p[class='nameGr'], p[class='nameRe'], p[class='twoPoints'], p[class='twoPointsGr'], p[class='twoPointsRe'],
-                p[class='value'], p[class='valueGr'], p[class='valueRe'] {
+            p[class='name'], p[class='nameGr'], p[class='nameG'] {
+                font-weight: bold !important;
+            }
+            p[class='name'], p[class='nameGr'], p[class='nameRe'], p[class='nameG'], p[class='twoPoints'], p[class='twoPointsGr'], p[class='twoPointsRe'],
+                    p[class='twoPointsG'], p[class='value'], p[class='valueGr'], p[class='valueRe'], p[class='valueG'] {
                 margin-bottom: 0;
+                text-align: center;
             }
             p[class='nameGr'], p[class='valueGr'], p[class='twoPointsGr'] {
                 color: #05f742 !important;
@@ -202,6 +220,9 @@ def custom_stylingReturn():
                 font-size: 2.7em !important;
                 font-weight: bold !important;
                 text-align: center;
+            }
+            p[class='nameG'], p[class='twoPointsG'], p[class='valueG'] {
+                font-size: 1.2em !important;
             }
         </style>
         """,

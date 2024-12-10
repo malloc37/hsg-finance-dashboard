@@ -103,10 +103,10 @@ def display_metrics(metrics, asset_class):
             )
 
 def display_dashboard():
-    st.title("Investment Dashboard")
     selectionByRisk = []
+    # form to select the final assets, one for each risk level selected.
     with st.form("userSelectedRiskOption"):
-        st.markdown("<h3 style='text-align:center;'>Selection of Assets</h3>", unsafe_allow_html=True)
+        st.markdown("<h2 class = 'assets'>Selection of assets</h2>", unsafe_allow_html=True)
         cols = st.columns(len(st.session_state.riskLevelList))
         if not selectionByRisk:
             for _ in range(len(st.session_state.riskLevelList)):
@@ -124,34 +124,40 @@ def display_dashboard():
                 )
         submit_col = st.columns(3)[1]
         with submit_col:
-            next = st.form_submit_button("Calculate Return")
+            next = st.form_submit_button("Show expected results")
         if {"Instrument": "-"} in selectionByRisk and next:
             st.error("You have to select an option for every risk level.")
         elif next:
             return {
                 "next": True,
                 "selectionByRisk": selectionByRisk,
+                # extract the annualized returns for the selected asset options from Yahoo Finance.
+                "irrs": [get_investment_metrics(option["Ticker"], option["Asset Class"])["Annualized Return"] 
+                    if option["Instrument"] != "-" 
+                    else "" for option in selectionByRisk]
             }
-
-    st.subheader("Navigation")
+    spaces(4)
     col1, col2, col3 = st.columns(3)
+    # creation of the navigation menu to pinpoint the asset option to be displayed with all the correspective metrics.
     selected_risk_level = st.session_state.riskLevelList[0]
     selected_option = investment_options[selected_risk_level][0]
     with col1:
+        st.markdown(f"<h2 class='navigation'>Navigation</h2>", unsafe_allow_html=True)
+    with col2:
         selected_risk_level = st.selectbox(
             "Risk Level",
             st.session_state.riskLevelList,
             index=st.session_state.riskLevelList.index(selected_risk_level),
             key="risk_level_dropdown",
         )
-    with col2:
+    with col3:
         selected_option = st.selectbox(
             "Investment Option",
             investment_options[selected_risk_level],
             format_func=lambda x: x["Instrument"],
             key="investment_option_dropdown",
         )
-
+    st.title("Investment Dashboard")
     st.header(f"{selected_option['Instrument']} - {selected_option['Asset Class']}")
     metrics = get_investment_metrics(selected_option["Ticker"], selected_option["Asset Class"])
 

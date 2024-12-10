@@ -10,6 +10,7 @@ from components.returns import displayReturns
 
 st.set_page_config(page_title="Investment Advisor Dashboard", layout="wide")
 
+# initialize the state of st, in order to safe the important values.
 def initialize_state():
     if "counter" not in st.session_state:
         st.session_state.counter = 0
@@ -31,14 +32,17 @@ def initialize_state():
         st.session_state.selected_option = None
     if "selectionByRisk" not in st.session_state:
         st.session_state.selectionByRisk = []
+    if "irrs" not in st.session_state:
+        st.session_state.irrs = []
 
+# used to create some spaces, for visual aspects.
 def spaces(n):
     for i in range(n):
         st.write("")
 
 initialize_state()
 
-
+# used to update which page to be shown.
 if st.session_state.action == "next":
     st.session_state.counter += 1
     st.session_state.action = None
@@ -46,18 +50,19 @@ elif st.session_state.action == "previous":
     st.session_state.counter -= 1
     st.session_state.action = None
 
+# select the page using the variable counter.
 if st.session_state.counter == 0:
     apply_custom_styling()
     spaces(4)
     result = displayInvestmentQuestion()
-    if result and result["next"]:
+    if result and result["next"]: # handle the output of the pages.
         st.session_state.investment = result["initial_investment"]
         st.session_state.action = "next"
 if st.session_state.counter == 1:
     apply_custom_styling()
     spaces(4)
     result = displayMonthlySavingQuestion()
-    if result:
+    if result: # handle the output of the pages.
         if result["next"]:
             st.session_state.monthly = result["saving_rate"]
             st.session_state.action = "next"
@@ -111,6 +116,7 @@ if st.session_state.counter == 5:
             if resultDash["next"]:
                 st.session_state.selectionByRisk = resultDash["selectionByRisk"]
                 st.session_state.action = "next"
+                st.session_state.irrs = resultDash["irrs"]
     else:
         st.error("No risk levels or allocations selected. Please go back and complete the steps.")
 if st.session_state.counter == 6:
