@@ -206,6 +206,7 @@ def custom_stylingReturn():
             p[class='name'], p[class='nameGr'], p[class='nameRe'], p[class='nameG'], p[class='twoPoints'], p[class='twoPointsGr'], p[class='twoPointsRe'],
                     p[class='twoPointsG'], p[class='value'], p[class='valueGr'], p[class='valueRe'], p[class='valueG'] {
                 margin-bottom: 0;
+                font-size: 14px !important;
                 text-align: center;
             }
             p[class='nameGr'], p[class='valueGr'], p[class='twoPointsGr'] {

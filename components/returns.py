@@ -31,9 +31,9 @@ def displayReturns():
             st.markdown(f"<p class='subTitle'>Summary - {now.strftime('%b %Y')}</p>", unsafe_allow_html=True)
             col11, col22, col33 = st.columns([3.4, 0.2, 4])
             with col11:
-                st.markdown(f"<p class='name'>Initial investment</p>", unsafe_allow_html=True)
+                st.markdown(f"<p class='name'>Initial inv.</p>", unsafe_allow_html=True)
                 st.markdown(f"<p class='name'>Monthly saving</p>", unsafe_allow_html=True)
-                st.markdown(f"<p class='name'>Investment term</p>", unsafe_allow_html=True)
+                st.markdown(f"<p class='name'>Inv. term</p>", unsafe_allow_html=True)
                 st.markdown(f"<p class='name'>Invested savings</p>", unsafe_allow_html=True)
                 st.markdown(f"<p class='nameRe'>Total invested</p>", unsafe_allow_html=True)
             with col22:
