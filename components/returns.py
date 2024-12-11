@@ -42,16 +42,16 @@ def displayReturns():
                 st.markdown(f"<p class='twoPointsRe'>:</p>", unsafe_allow_html=True)
             with col33:
                 initialInvestment = st.session_state.investment
-                st.markdown(f"<p class='value'>CHF {"{:,.0f}".format(initialInvestment)}</p>", unsafe_allow_html=True)
+                st.markdown(f"<p class='value'>CHF {'{:,.0f}'.format(initialInvestment)}</p>", unsafe_allow_html=True)
                 monthlySaving = st.session_state.monthly
-                st.markdown(f"<p class='value'>CHF {"{:,.0f}".format(monthlySaving)}</p>", unsafe_allow_html=True)
+                st.markdown(f"<p class='value'>CHF {'{:,.0f}'.format(monthlySaving)}</p>", unsafe_allow_html=True)
                 st.markdown(f"<p class='value'>{st.session_state.yearWealth} months</p>", unsafe_allow_html=True)
                 # formula to calculate 'Invested savings'
                 totInvestedSaving = st.session_state.monthly * st.session_state.yearWealth
-                st.markdown(f"<p class='value'>CHF {"{:,.0f}".format(totInvestedSaving)}</p>", unsafe_allow_html=True)
+                st.markdown(f"<p class='value'>CHF {'{:,.0f}'.format(totInvestedSaving)}</p>", unsafe_allow_html=True)
                 # formula to calculate 'Total invested'
                 totalInvested = st.session_state.monthly * st.session_state.yearWealth + st.session_state.investment
-                st.markdown(f"<p class='valueRe'>CHF {"{:,.0f}".format(totalInvested)}</p>", unsafe_allow_html=True)
+                st.markdown(f"<p class='valueRe'>CHF {'{:,.0f}'.format(totalInvested)}</p>", unsafe_allow_html=True)
         
         # arrows' columns
         with col2:
