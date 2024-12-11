@@ -3,10 +3,10 @@ investment_options = {
     "Very-low risk": [
         {"Instrument": "Invesco Ultra Short Duration ETF", "Ticker": "GSY", "Asset Class": "Bonds"},
         {"Instrument": "iShares Core U.S. Aggregate Bond ETF", "Ticker": "AGG", "Asset Class": "Bonds"},
-        {"Instrument": "iShares Short Treasury Bond ETF", "Ticker": "SHV", "Asset Class": "ETF"},
+        {"Instrument": "iShares 0-3 Month Treasury Bond ETF", "Ticker": "SGOV", "Asset Class": "ETF"},
         {"Instrument": "Schwab U.S. Aggregate Bond ETF", "Ticker": "SCHZ", "Asset Class": "Bonds"},
         {"Instrument": "SPDR Bloomberg 1-3 Month T-Bill ETF", "Ticker": "BIL", "Asset Class": "Bonds"},
-        {"Instrument": "U.S. Treasury 10-Year Note Proxy", "Ticker": "TNX", "Asset Class": "Bonds"},
+        {"Instrument": "iShares Short Treasury Bond ETF", "Ticker": "SHV", "Asset Class": "ETF"},
         {"Instrument": "Vanguard Total Bond Market ETF", "Ticker": "BND", "Asset Class": "Bonds"}
     ],
     "Low risk": [
@@ -24,7 +24,7 @@ investment_options = {
     "Moderate risk": [
         {"Instrument": "Apple Inc.", "Ticker": "AAPL", "Asset Class": "Stock"},
         {"Instrument": "ARK Innovation ETF", "Ticker": "ARKK", "Asset Class": "ETF"},
-        {"Instrument": "LVMH", "Ticker": "MC.PA", "Asset Class": "Stock"},
+        {"Instrument": "Hermès", "Ticker": "RMS.PA", "Asset Class": "Stock"},
         {"Instrument": "SPDR Dow Jones Industrial Average ETF", "Ticker": "DIA", "Asset Class": "ETF"},
         {"Instrument": "SPDR S&P 500 ETF", "Ticker": "SPY", "Asset Class": "ETF"},
         {"Instrument": "Tesla Inc.", "Ticker": "TSLA", "Asset Class": "Stock"},
@@ -40,7 +40,7 @@ investment_options = {
         {"Instrument": "Vanguard Information Technology ETF", "Ticker": "VGT", "Asset Class": "ETF"}
     ],
     "Very-high risk": [
-        {"Instrument": "AMC Entertainment", "Ticker": "AMC", "Asset Class": "Stock"},
+        {"Instrument": "Global X Robotics & Artificial Intelligence ETF", "Ticker": " BOTZ", "Asset Class": "Stock"},
         {"Instrument": "ARK Fintech Innovation ETF", "Ticker": "ARKF", "Asset Class": "ETF"},
         {"Instrument": "Dogecoin", "Ticker": "DOGE-USD", "Asset Class": "Crypto"},
         {"Instrument": "MicroStrategy Incorporated", "Ticker": "MSTR", "Asset Class": "Stock"},

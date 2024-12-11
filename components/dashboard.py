@@ -1,4 +1,4 @@
-import pandas as pd
+import plotly.graph_objects as go
 import streamlit as st
 import requests
 from textblob import TextBlob
@@ -27,10 +27,13 @@ def fetch_stock_news(stock_name, api_key):
         st.error("Error fetching news articles. Please check the API key or request.")
         return []
 
+
 def analyze_sentiment(headlines):
     sentiment_scores = [TextBlob(headline).sentiment.polarity for headline in headlines]
     avg_sentiment = sum(sentiment_scores) / len(sentiment_scores) if sentiment_scores else 0
-    return avg_sentiment
+
+    scaled_sentiment = avg_sentiment * 10
+    return scaled_sentiment
 
 
 def format_metric(label, value):
@@ -54,9 +57,10 @@ def format_metric(label, value):
 
     return value
 
-def display_metrics(metrics, asset_class):
+def display_metrics(metrics, tooltips, asset_class):
     cols = st.columns(3)
 
+    # Define general and specific metrics for the asset class
     general_metrics = [
         ("Market Cap", metrics["Market Cap"]),
         ("Volatility", metrics["Volatility"]),
@@ -90,17 +94,33 @@ def display_metrics(metrics, asset_class):
     all_metrics = general_metrics + specific_metrics
 
     for i, (label, value) in enumerate(all_metrics):
+        tooltip = tooltips.get(label, "No explanation available.")
         formatted_value = format_metric(label, value)
         with cols[i % 3]:
             st.markdown(
                 f"""
-                <div style='margin-bottom: 10px; padding: 15px; background-color: rgba(55, 90, 106, 0.25); border: 1px solid #375A6A; border-radius: 8px;'>
-                    <h4 style='text-align: center; color: #110F37;'>{label}</h4>
-                    <p style='text-align: center; font-size: 20px; color: #110F37;'><strong>{formatted_value}</strong></p>
+                <div style='
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    margin-bottom: 10px;
+                    padding: 15px;
+                    background-color: #DCD7CD;
+                    border: 1px solid #110F37;
+                    border-radius: 8px;'>
+                    <h4 style='text-align: center; color: #110F37; margin: 0;'>
+                         &nbsp; {label}
+                    </h4>
+                    <p style='text-align: center; font-size: 20px; color: #110F37; margin: 0;'>
+                        <strong>{formatted_value} &nbsp;&nbsp;&nbsp;</strong>
+                    </p>
                 </div>
                 """,
                 unsafe_allow_html=True,
             )
+            with st.expander(f"\u2139"):
+                st.write(tooltip)
 
 def display_dashboard():
     selectionByRisk = []
@@ -159,12 +179,12 @@ def display_dashboard():
         )
     st.title("Investment Dashboard")
     st.header(f"{selected_option['Instrument']} - {selected_option['Asset Class']}")
-    metrics = get_investment_metrics(selected_option["Ticker"], selected_option["Asset Class"])
+    metrics, tooltips = get_investment_metrics(selected_option["Ticker"], selected_option["Asset Class"])
 
     st.subheader("Short Description")
     st.markdown(
         f"""
-        <div style='background-color: rgba(55, 90, 106, 0.25); border: 1px solid #375A6A; padding: 15px; border-radius: 8px;'>
+        <div style='background-color: #DCD7CD; border: 1px solid #110F37; padding: 15px; border-radius: 8px;'>
             <p style='font-size: 18px; color: #110F37;'>{metrics.get("Short Description", "N/A")}</p>
         </div>
         """,
@@ -172,12 +192,41 @@ def display_dashboard():
     )
 
     st.subheader("Financial Metrics")
-    display_metrics(metrics, selected_option["Asset Class"])
+    display_metrics(metrics, tooltips, selected_option["Asset Class"])
     spaces(2)
 
     st.subheader("Historical Price Trend")
     if "Price History" in metrics:
-        st.line_chart(metrics["Price History"]["Close"])
+        fig = go.Figure()
+
+        fig.add_trace(go.Scatter(
+            x=metrics["Price History"].index,
+            y=metrics["Price History"]["Close"],
+            mode='lines',
+            line=dict(color="#375A6A")
+        ))
+
+        fig.update_layout(
+            plot_bgcolor="#DCD7CD",
+            paper_bgcolor="#DCD7CD",
+            font=dict(color="#375A6A"),
+            xaxis=dict(
+                showgrid=True,
+                gridcolor="#110F37",
+                title="Date",
+                titlefont=dict(color="#375A6A"),
+                tickfont=dict(color="#375A6A"),
+            ),
+            yaxis=dict(
+                showgrid=True,
+                gridcolor="#110F37",
+                title="Price",
+                titlefont=dict(color="#375A6A"),
+                tickfont=dict(color="#375A6A"),
+            )
+        )
+
+        st.plotly_chart(fig, use_container_width=True)
     spaces(2)
 
     st.subheader("Market Sentiment Analysis")
@@ -193,18 +242,17 @@ def display_dashboard():
         f"""
         <div style='width: 100%; padding: 15px; background-color: {sentiment_color}; border: 1px solid #375A6A; border-radius: 8px; text-align: left;'>
             <h4 style='color: #110F37;'>Sentiment Score</h4>
-            <p style='font-size: 20px; color: #110F37;'><strong>{sentiment_score:.2f} ({sentiment_label})</strong></p>
+            <p style='font-size: 20px; color: #110F37;'><strong>{sentiment_score:.1f} ({sentiment_label})</strong></p>
         </div>
         """,
         unsafe_allow_html=True,
     )
-    spaces(2)
 
     st.subheader("Top News Headlines")
     for headline in headlines[:5]:
         st.markdown(
             f"""
-            <div style='background-color: rgba(55, 90, 106, 0.25); border: 1px solid #375A6A; padding: 10px; margin-bottom: 5px; border-radius: 8px;'>
+            <div style='background-color: #DCD7CD; border: 1px solid #110F37; padding: 10px; margin-bottom: 5px; border-radius: 8px;'>
                 <p style='font-size: 16px; color: #110F37;'>{headline}</p>
             </div>
             """,

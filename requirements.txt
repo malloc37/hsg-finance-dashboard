@@ -4,3 +4,4 @@ matplotlib
 textblob
 python-dateutil
 numpy_financial
+plotly
