@@ -40,7 +40,7 @@ investment_options = {
         {"Instrument": "Vanguard Information Technology ETF", "Ticker": "VGT", "Asset Class": "ETF"}
     ],
     "Very-high risk": [
-        {"Instrument": "ProShares UltraPro QQQ", "Ticker": " TQQQ", "Asset Class": "ETF"},
+        {"Instrument": "VanEck Semiconductor ETF", "Ticker": "SMH", "Asset Class": "ETF"},
         {"Instrument": "ARK Fintech Innovation ETF", "Ticker": "ARKF", "Asset Class": "ETF"},
         {"Instrument": "Dogecoin", "Ticker": "DOGE-USD", "Asset Class": "Crypto"},
         {"Instrument": "MicroStrategy Incorporated", "Ticker": "MSTR", "Asset Class": "Stock"},
