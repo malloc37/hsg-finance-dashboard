@@ -10,6 +10,12 @@ def spaces(n):
         st.write("")
 
 def fetch_stock_news(stock_name, api_key):
+    """
+    Fetch the latest news headlines for a given stock name.
+    :param stock_name: The name of the stock to search for.
+    :param api_key: API key for the news service.
+    :return: List of news article titles or an error message.
+    """
     params = {
         "q": stock_name,
         "language": "en",
@@ -29,6 +35,11 @@ def fetch_stock_news(stock_name, api_key):
 
 
 def analyze_sentiment(headlines):
+    """
+    Analyzes sentiment for a list of headlines using TextBlob.
+    :param headlines: List of news headlines.
+    :return: Scaled sentiment score (positive/negative/neutral).
+    """
     sentiment_scores = [TextBlob(headline).sentiment.polarity for headline in headlines]
     avg_sentiment = sum(sentiment_scores) / len(sentiment_scores) if sentiment_scores else 0
 
@@ -38,7 +49,10 @@ def analyze_sentiment(headlines):
 
 def format_metric(label, value):
     """
-    Format metrics with appropriate signs and rounding.
+    Formats metrics for display based on type (e.g., percentages, billions, etc.).
+    :param label: Label of the metric.
+    :param value: Raw value of the metric.
+    :return: Formatted string for display.
     """
     if value == "N/A" or value is None:
         return "Not Available"
@@ -58,6 +72,12 @@ def format_metric(label, value):
     return value
 
 def display_metrics(metrics, tooltips, asset_class):
+    """
+    Displays financial metrics dynamically based on the asset class.
+    :param metrics: Dictionary containing metric values.
+    :param tooltips: Dictionary containing tooltip explanations.
+    :param asset_class: The selected asset class (e.g., stock, ETF, bonds).
+    """
     cols = st.columns(3)
 
     # Define general and specific metrics for the asset class
@@ -92,7 +112,7 @@ def display_metrics(metrics, tooltips, asset_class):
         ]
 
     all_metrics = general_metrics + specific_metrics
-
+    # Render metrics and tooltips in a grid
     for i, (label, value) in enumerate(all_metrics):
         tooltip = tooltips.get(label, "No explanation available.")
         formatted_value = format_metric(label, value)
@@ -119,18 +139,25 @@ def display_metrics(metrics, tooltips, asset_class):
                 """,
                 unsafe_allow_html=True,
             )
+            # Tooltip expander for explanations
             with st.expander(f"\u2139"):
                 st.write(tooltip)
 
 def display_dashboard():
+    """
+        Renders the main investment dashboard UI, including selection of assets,
+        metrics display, historical trends, sentiment analysis, and news headlines.
+    """
     selectionByRisk = []
     # form to select the final assets, one for each risk level selected.
     with st.form("userSelectedRiskOption"):
         st.markdown("<h2 class = 'assets'>Selection of assets</h2>", unsafe_allow_html=True)
         cols = st.columns(len(st.session_state.riskLevelList))
+        # Initialize selection options for each risk level
         if not selectionByRisk:
             for _ in range(len(st.session_state.riskLevelList)):
                 selectionByRisk.append({"Instrument": "-"})
+        # Display selection boxes for each risk level
         for i, col in enumerate(cols):
             with col:
                 options = [value for value in investment_options[st.session_state.riskLevelList[i]]]
@@ -145,6 +172,7 @@ def display_dashboard():
         submit_col = st.columns(3)[1]
         with submit_col:
             next = st.form_submit_button("Show expected results")
+        # Error handling for missing selections
         if {"Instrument": "-"} in selectionByRisk and next:
             st.error("You have to select an option for every risk level.")
         elif next:
@@ -192,10 +220,12 @@ def display_dashboard():
         unsafe_allow_html=True,
     )
 
+    # Section to display the key financial metrics dynamically
     st.subheader("Financial Metrics")
     display_metrics(metrics, tooltips, selected_option["Asset Class"])
     spaces(2)
 
+    # Section to display the historical price trend as a line graph
     st.subheader("Historical Price Trend")
     if "Price History" in metrics:
         fig = go.Figure()
@@ -206,7 +236,7 @@ def display_dashboard():
             mode='lines',
             line=dict(color="#375A6A")
         ))
-
+        # Configure layout for the graph
         fig.update_layout(
             plot_bgcolor="#DCD7CD",
             paper_bgcolor="#DCD7CD",
@@ -230,15 +260,18 @@ def display_dashboard():
         st.plotly_chart(fig, use_container_width=True)
     spaces(2)
 
+    # Fetch the latest news headlines for the selected instrument
     st.subheader("Market Sentiment Analysis")
     headlines = fetch_stock_news(selected_option["Instrument"], "a95a714114e64befabf8b6a87a8a2f8e")
     sentiment_score = analyze_sentiment(headlines)
+    # Determine sentiment label and color based on the score
     sentiment_label = "Positive" if sentiment_score > 0 else "Negative" if sentiment_score < 0 else "Neutral"
     sentiment_color = (
         "rgba(0, 255, 0, 0.25)" if sentiment_score > 0 else
         "rgba(255, 0, 0, 0.25)" if sentiment_score < 0 else
         "rgba(0, 0, 0, 0.0)"
     )
+    # Display the sentiment score with color-coded background
     st.markdown(
         f"""
         <div style='width: 100%; padding: 15px; background-color: {sentiment_color}; border: 1px solid #375A6A; border-radius: 8px; text-align: left;'>
@@ -248,7 +281,7 @@ def display_dashboard():
         """,
         unsafe_allow_html=True,
     )
-
+    # Display the top news headlines related to the selected investment
     st.subheader("Top News Headlines")
     for headline in headlines[:5]:
         st.markdown(
