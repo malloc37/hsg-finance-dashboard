@@ -152,8 +152,9 @@ def display_dashboard():
                 "next": True,
                 "selectionByRisk": selectionByRisk,
                 # extract the annualized returns for the selected asset options from Yahoo Finance.
-                "irrs": [get_investment_metrics(option["Ticker"], option["Asset Class"])["Annualized Return"] 
-                    if option["Instrument"] != "-" 
+                "irrs": [
+                    get_investment_metrics(option["Ticker"], option["Asset Class"])[0].get("Annualized Return", "N/A")
+                    if option["Instrument"] != "-"
                     else "" for option in selectionByRisk]
             }
     spaces(4)
