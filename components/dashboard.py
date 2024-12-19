@@ -151,7 +151,7 @@ def display_dashboard():
     selectionByRisk = []
     # form to select the final assets, one for each risk level selected.
     with st.form("userSelectedRiskOption"):
-        st.markdown("<h2 class = 'assets'>Selection of assets</h2>", unsafe_allow_html=True)
+        st.markdown("<h2 class = 'assets'>Pick an asset per risk level!</h2>", unsafe_allow_html=True)
         cols = st.columns(len(st.session_state.riskLevelList))
         # Initialize selection options for each risk level
         if not selectionByRisk:

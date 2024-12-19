@@ -76,6 +76,8 @@ def displayYearWealthQuestion():
             st.write("Most financial strategies align exit timing with investment maturity cycles, typically between 5-10 years for market assets.")
         if next and month + year*12 <= 0:
             st.error("The investment period must be greater than zero.")
+        if next and (year < 0 or month < 0 or month > 11):
+            st.error("In investment period, months cannot be more than 11, while years and months must be equal or greater than 0.")
         elif next:
             return {
                 "next": True,
