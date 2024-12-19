@@ -77,3 +77,9 @@ The project follows a modular structure for better maintainability:
 ├── requirements.txt              # List of dependencies
 └── README.md                     # Project documentation
 ```
+
+### 🐛 Known Bugs  
+- **Double Klick Problem**: Currently, some actions in the app require a double click instead of a single click to trigger properly.
+
+
+
