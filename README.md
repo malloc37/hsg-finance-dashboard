@@ -79,7 +79,7 @@ The project follows a modular structure for better maintainability:
 ```
 
 ### 🐛 Known Bugs  
-- **Double Klick Problem**: Currently, some actions in the app require a double click instead of a single click to trigger properly.
+- **Double Click Problem**: Currently, some actions in the app require a double click instead of a single click to trigger properly.
 
 
 
