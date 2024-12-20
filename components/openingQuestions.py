@@ -11,7 +11,7 @@ def displayInvestmentQuestion():
             st.title("How much are you looking to invest?")
         with col2t:
             st.write('\u2139')
-        investment = st.number_input("(CHF)", min_value=0.0, step=10.0)
+        investment = st.number_input("(CHF)", step=10.0)
         next = st.form_submit_button("Next")
         with st.expander('\u2139'):
             st.write("Banks suggest investing 1/3 in the market and keeping 2/3 in other assets or liquid reserves for stability.")
@@ -32,7 +32,7 @@ def displayMonthlySavingQuestion():
             st.title("What portion of your monthly savings are you considering allocating to market investments?")
         with col2t:
             st.write('\u2139')
-        monthly = st.number_input("(CHF)", min_value=0.0, step=10.0)
+        monthly = st.number_input("(CHF)", step=10.0)
         col1, col2 = st.columns(2)
         with col1:
             next = st.form_submit_button("Next")
@@ -64,9 +64,9 @@ def displayYearWealthQuestion():
             st.write('\u2139')
         col11, col22 = st.columns(2)
         with col11:
-            year = st.number_input("Years", min_value=1, step=1, value=1)
+            year = st.number_input("Years", step=1, value=1)
         with col22:
-            month = st.number_input("Months", min_value=1, step=1, max_value=11, value=1)
+            month = st.number_input("Months", step=1, value=1)
         col1, col2 = st.columns(2)
         with col1:
             next = st.form_submit_button("Next")
@@ -74,10 +74,10 @@ def displayYearWealthQuestion():
             previous = st.form_submit_button("Back")
         with st.expander('\u2139'):
             st.write("Most financial strategies align exit timing with investment maturity cycles, typically between 5-10 years for market assets.")
-        if next and month + year*12 <= 0:
-            st.error("The investment period must be greater than zero.")
-        if next and (year < 0 or month < 0 or month > 11):
-            st.error("In investment period, months cannot be more than 11, while years and months must be equal or greater than 0.")
+        if next and (month + year*12 <= 0 or year < 0 or month < 0):
+            st.error("The investment period must be greater than zero, with months and years not negative")
+        elif next and month > 11:
+            st.error("Months cannot be more than 11.")
         elif next:
             return {
                 "next": True,
