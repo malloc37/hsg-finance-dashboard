@@ -15,6 +15,9 @@ The **Investment Advisor Dashboard** is a Streamlit-powered application that gui
 5. Visualize expected **future investment growth** based on user inputs.
 
 ---
+## 📄 Additional Report
+
+For more information, check out the detailed project report: [Prospera_7789 Programming_Python.docx](https://github.com/malloc37/hsg-finance-dashboard/blob/main/Prospera_7789%20Programming_Python.docx)
 
 ### 🚀 Features
 
